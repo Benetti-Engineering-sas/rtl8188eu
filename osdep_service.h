@@ -13,6 +13,13 @@
 #define RTW_RBUF_UNAVAIL		5
 #define RTW_RBUF_PKT_UNAVAIL	6
 
+#if (LINUX_VERSION_CODE >= KERNEL_VERSION(6, 15, 0))
+static inline int del_timer_sync(struct timer_list *timer)
+{
+	return timer_delete_sync(timer);
+}
+#endif
+
 #include <osdep_service_linux.h>
 
 #define RTW_TIMER_HDL_NAME(name) rtw_##name##_timer_hdl

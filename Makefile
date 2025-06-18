@@ -1,21 +1,21 @@
-EXTRA_CFLAGS += $(USER_EXTRA_CFLAGS)
-EXTRA_CFLAGS += -O1 -g
-EXTRA_CFLAGS += -Wno-unused-variable
-EXTRA_CFLAGS += -Wno-unused-value
-EXTRA_CFLAGS += -Wno-unused-label
-EXTRA_CFLAGS += -Wno-unused-parameter
-EXTRA_CFLAGS += -Wno-unused-function
-EXTRA_CFLAGS += -Wno-unused
-EXTRA_CFLAGS += -Wno-uninitialized
-EXTRA_CFLAGS += -Wno-missing-prototypes
-EXTRA_CFLAGS += -Wno-missing-declarations
+ccflags-y += $(USER_EXTRA_CFLAGS)
+ccflags-y += -O1 -g
+ccflags-y += -Wno-unused-variable
+ccflags-y += -Wno-unused-value
+ccflags-y += -Wno-unused-label
+ccflags-y += -Wno-unused-parameter
+ccflags-y += -Wno-unused-function
+ccflags-y += -Wno-unused
+ccflags-y += -Wno-uninitialized
+ccflags-y += -Wno-missing-prototypes
+ccflags-y += -Wno-missing-declarations
 
 GCC_VER_49 := $(shell echo `$(CC) -dumpversion | cut -f1-2 -d.` \>= 4.9 | bc )
 ifeq ($(GCC_VER_49),1)
-EXTRA_CFLAGS += -Wno-date-time	# Fix compile error && warning on gcc 4.9 and later
+ccflags-y += -Wno-date-time	# Fix compile error && warning on gcc 4.9 and later
 endif
 
-EXTRA_CFLAGS += -I$(src)
+ccflags-y += -I$(src)
 
 CONFIG_AUTOCFG_CP = n
 
@@ -139,207 +139,207 @@ _OUTSRC_FILES += halhwimg8188e_mac.o\
 ########### END OF PATH  #################################
 
 ifeq ($(CONFIG_USB_AUTOSUSPEND), y)
-EXTRA_CFLAGS += -DCONFIG_USB_AUTOSUSPEND
+ccflags-y += -DCONFIG_USB_AUTOSUSPEND
 endif
 
 ifeq ($(CONFIG_MP_INCLUDED), y)
 #MODULE_NAME := 8188eu_mp
-EXTRA_CFLAGS += -DCONFIG_MP_INCLUDED
+ccflags-y += -DCONFIG_MP_INCLUDED
 endif
 
 ifeq ($(CONFIG_POWER_SAVING), y)
-EXTRA_CFLAGS += -DCONFIG_POWER_SAVING
+ccflags-y += -DCONFIG_POWER_SAVING
 endif
 
 ifeq ($(CONFIG_HW_PWRP_DETECTION), y)
-EXTRA_CFLAGS += -DCONFIG_HW_PWRP_DETECTION
+ccflags-y += -DCONFIG_HW_PWRP_DETECTION
 endif
 
 ifeq ($(CONFIG_WIFI_TEST), y)
-EXTRA_CFLAGS += -DCONFIG_WIFI_TEST
+ccflags-y += -DCONFIG_WIFI_TEST
 endif
 
 ifeq ($(CONFIG_BT_COEXIST), y)
-EXTRA_CFLAGS += -DCONFIG_BT_COEXIST
+ccflags-y += -DCONFIG_BT_COEXIST
 endif
 
 ifeq ($(CONFIG_INTEL_WIDI), y)
-EXTRA_CFLAGS += -DCONFIG_INTEL_WIDI
+ccflags-y += -DCONFIG_INTEL_WIDI
 endif
 
 ifeq ($(CONFIG_WAPI_SUPPORT), y)
-EXTRA_CFLAGS += -DCONFIG_WAPI_SUPPORT
+ccflags-y += -DCONFIG_WAPI_SUPPORT
 endif
 
 
 ifeq ($(CONFIG_EFUSE_CONFIG_FILE), y)
-EXTRA_CFLAGS += -DCONFIG_EFUSE_CONFIG_FILE
+ccflags-y += -DCONFIG_EFUSE_CONFIG_FILE
 
 #EFUSE_MAP_PATH
 USER_EFUSE_MAP_PATH ?=
 ifneq ($(USER_EFUSE_MAP_PATH),)
-EXTRA_CFLAGS += -DEFUSE_MAP_PATH=\"$(USER_EFUSE_MAP_PATH)\"
+ccflags-y += -DEFUSE_MAP_PATH=\"$(USER_EFUSE_MAP_PATH)\"
 else ifeq (8188eu, 8189es)
-EXTRA_CFLAGS += -DEFUSE_MAP_PATH=\"/system/etc/wifi/wifi_efuse_8189e.map\"
+ccflags-y += -DEFUSE_MAP_PATH=\"/system/etc/wifi/wifi_efuse_8189e.map\"
 else ifeq (8188eu, 8723bs)
-EXTRA_CFLAGS += -DEFUSE_MAP_PATH=\"/system/etc/wifi/wifi_efuse_8723bs.map\"
+ccflags-y += -DEFUSE_MAP_PATH=\"/system/etc/wifi/wifi_efuse_8723bs.map\"
 else
-EXTRA_CFLAGS += -DEFUSE_MAP_PATH=\"/system/etc/wifi/wifi_efuse_8188eu.map\"
+ccflags-y += -DEFUSE_MAP_PATH=\"/system/etc/wifi/wifi_efuse_8188eu.map\"
 endif
 
 #WIFIMAC_PATH
 USER_WIFIMAC_PATH ?=
 ifneq ($(USER_WIFIMAC_PATH),)
-EXTRA_CFLAGS += -DWIFIMAC_PATH=\"$(USER_WIFIMAC_PATH)\"
+ccflags-y += -DWIFIMAC_PATH=\"$(USER_WIFIMAC_PATH)\"
 else
-EXTRA_CFLAGS += -DWIFIMAC_PATH=\"/data/wifimac.txt\"
+ccflags-y += -DWIFIMAC_PATH=\"/data/wifimac.txt\"
 endif
 
 endif
 
 ifeq ($(CONFIG_EXT_CLK), y)
-EXTRA_CFLAGS += -DCONFIG_EXT_CLK
+ccflags-y += -DCONFIG_EXT_CLK
 endif
 
 ifeq ($(CONFIG_TRAFFIC_PROTECT), y)
-EXTRA_CFLAGS += -DCONFIG_TRAFFIC_PROTECT
+ccflags-y += -DCONFIG_TRAFFIC_PROTECT
 endif
 
 ifeq ($(CONFIG_LOAD_PHY_PARA_FROM_FILE), y)
-EXTRA_CFLAGS += -DCONFIG_LOAD_PHY_PARA_FROM_FILE
-EXTRA_CFLAGS += -DREALTEK_CONFIG_PATH=\"\"
+ccflags-y += -DCONFIG_LOAD_PHY_PARA_FROM_FILE
+ccflags-y += -DREALTEK_CONFIG_PATH=\"\"
 endif
 
 ifeq ($(CONFIG_TXPWR_BY_RATE_EN), n)
-EXTRA_CFLAGS += -DCONFIG_TXPWR_BY_RATE_EN=0
+ccflags-y += -DCONFIG_TXPWR_BY_RATE_EN=0
 else ifeq ($(CONFIG_TXPWR_BY_RATE_EN), y)
-EXTRA_CFLAGS += -DCONFIG_TXPWR_BY_RATE_EN=1
+ccflags-y += -DCONFIG_TXPWR_BY_RATE_EN=1
 else ifeq ($(CONFIG_TXPWR_BY_RATE_EN), auto)
-EXTRA_CFLAGS += -DCONFIG_TXPWR_BY_RATE_EN=2
+ccflags-y += -DCONFIG_TXPWR_BY_RATE_EN=2
 endif
 
 ifeq ($(CONFIG_TXPWR_LIMIT_EN), n)
-EXTRA_CFLAGS += -DCONFIG_TXPWR_LIMIT_EN=0
+ccflags-y += -DCONFIG_TXPWR_LIMIT_EN=0
 else ifeq ($(CONFIG_TXPWR_LIMIT_EN), y)
-EXTRA_CFLAGS += -DCONFIG_TXPWR_LIMIT_EN=1
+ccflags-y += -DCONFIG_TXPWR_LIMIT_EN=1
 else ifeq ($(CONFIG_TXPWR_LIMIT_EN), auto)
-EXTRA_CFLAGS += -DCONFIG_TXPWR_LIMIT_EN=2
+ccflags-y += -DCONFIG_TXPWR_LIMIT_EN=2
 endif
 
 ifeq ($(CONFIG_CALIBRATE_TX_POWER_BY_REGULATORY), y)
-EXTRA_CFLAGS += -DCONFIG_CALIBRATE_TX_POWER_BY_REGULATORY
+ccflags-y += -DCONFIG_CALIBRATE_TX_POWER_BY_REGULATORY
 endif
 
 ifeq ($(CONFIG_CALIBRATE_TX_POWER_TO_MAX), y)
-EXTRA_CFLAGS += -DCONFIG_CALIBRATE_TX_POWER_TO_MAX
+ccflags-y += -DCONFIG_CALIBRATE_TX_POWER_TO_MAX
 endif
 
 ifeq ($(CONFIG_RTW_ADAPTIVITY_EN), disable)
-EXTRA_CFLAGS += -DCONFIG_RTW_ADAPTIVITY_EN=0
+ccflags-y += -DCONFIG_RTW_ADAPTIVITY_EN=0
 else ifeq ($(CONFIG_RTW_ADAPTIVITY_EN), enable)
-EXTRA_CFLAGS += -DCONFIG_RTW_ADAPTIVITY_EN=1
+ccflags-y += -DCONFIG_RTW_ADAPTIVITY_EN=1
 endif
 
 ifeq ($(CONFIG_RTW_ADAPTIVITY_MODE), normal)
-EXTRA_CFLAGS += -DCONFIG_RTW_ADAPTIVITY_MODE=0
+ccflags-y += -DCONFIG_RTW_ADAPTIVITY_MODE=0
 else ifeq ($(CONFIG_RTW_ADAPTIVITY_MODE), carrier_sense)
-EXTRA_CFLAGS += -DCONFIG_RTW_ADAPTIVITY_MODE=1
+ccflags-y += -DCONFIG_RTW_ADAPTIVITY_MODE=1
 endif
 
 ifeq ($(CONFIG_SIGNAL_SCALE_MAPPING), y)
-EXTRA_CFLAGS += -DCONFIG_SIGNAL_SCALE_MAPPING
+ccflags-y += -DCONFIG_SIGNAL_SCALE_MAPPING
 endif
 
 ifeq ($(CONFIG_80211W), y)
-EXTRA_CFLAGS += -DCONFIG_IEEE80211W
+ccflags-y += -DCONFIG_IEEE80211W
 endif
 
 ifeq ($(CONFIG_WOWLAN), y)
-EXTRA_CFLAGS += -DCONFIG_WOWLAN
+ccflags-y += -DCONFIG_WOWLAN
 ifeq ($(CONFIG_DEFAULT_PATTERNS_EN), y)
-EXTRA_CFLAGS += -DCONFIG_DEFAULT_PATTERNS_EN
+ccflags-y += -DCONFIG_DEFAULT_PATTERNS_EN
 endif
 endif
 
 ifeq ($(CONFIG_AP_WOWLAN), y)
-EXTRA_CFLAGS += -DCONFIG_AP_WOWLAN
+ccflags-y += -DCONFIG_AP_WOWLAN
 endif
 
 ifeq ($(CONFIG_PNO_SUPPORT), y)
-EXTRA_CFLAGS += -DCONFIG_PNO_SUPPORT
+ccflags-y += -DCONFIG_PNO_SUPPORT
 ifeq ($(CONFIG_PNO_SET_DEBUG), y)
-EXTRA_CFLAGS += -DCONFIG_PNO_SET_DEBUG
+ccflags-y += -DCONFIG_PNO_SET_DEBUG
 endif
 endif
 
 ifeq ($(CONFIG_GPIO_WAKEUP), y)
-EXTRA_CFLAGS += -DCONFIG_GPIO_WAKEUP
+ccflags-y += -DCONFIG_GPIO_WAKEUP
 ifeq ($(CONFIG_HIGH_ACTIVE), y)
-EXTRA_CFLAGS += -DHIGH_ACTIVE=1
+ccflags-y += -DHIGH_ACTIVE=1
 else
-EXTRA_CFLAGS += -DHIGH_ACTIVE=0
+ccflags-y += -DHIGH_ACTIVE=0
 endif
 endif
 
 ifneq ($(CONFIG_WAKEUP_GPIO_IDX), default)
-EXTRA_CFLAGS += -DWAKEUP_GPIO_IDX=$(CONFIG_WAKEUP_GPIO_IDX)
+ccflags-y += -DWAKEUP_GPIO_IDX=$(CONFIG_WAKEUP_GPIO_IDX)
 endif
 
 ifeq ($(CONFIG_REDUCE_TX_CPU_LOADING), y)
-EXTRA_CFLAGS += -DCONFIG_REDUCE_TX_CPU_LOADING
+ccflags-y += -DCONFIG_REDUCE_TX_CPU_LOADING
 endif
 
 ifeq ($(CONFIG_BR_EXT), y)
 BR_NAME = br0
-EXTRA_CFLAGS += -DCONFIG_BR_EXT
-EXTRA_CFLAGS += '-DCONFIG_BR_EXT_BRNAME="'$(BR_NAME)'"'
+ccflags-y += -DCONFIG_BR_EXT
+ccflags-y += '-DCONFIG_BR_EXT_BRNAME="'$(BR_NAME)'"'
 endif
 
 
 ifeq ($(CONFIG_TDLS), y)
-EXTRA_CFLAGS += -DCONFIG_TDLS
+ccflags-y += -DCONFIG_TDLS
 endif
 
 ifeq ($(CONFIG_WIFI_MONITOR), y)
-EXTRA_CFLAGS += -DCONFIG_WIFI_MONITOR
+ccflags-y += -DCONFIG_WIFI_MONITOR
 endif
 
 ifeq ($(CONFIG_MCC_MODE), y)
-EXTRA_CFLAGS += -DCONFIG_MCC_MODE
+ccflags-y += -DCONFIG_MCC_MODE
 endif
 
 ifeq ($(CONFIG_RTW_NAPI), y)
-EXTRA_CFLAGS += -DCONFIG_RTW_NAPI
+ccflags-y += -DCONFIG_RTW_NAPI
 endif
 
 ifeq ($(CONFIG_RTW_GRO), y)
-EXTRA_CFLAGS += -DCONFIG_RTW_GRO
+ccflags-y += -DCONFIG_RTW_GRO
 endif
 
 ifeq ($(CONFIG_MP_VHT_HW_TX_MODE), y)
-EXTRA_CFLAGS += -DCONFIG_MP_VHT_HW_TX_MODE
+ccflags-y += -DCONFIG_MP_VHT_HW_TX_MODE
 ifeq ($(CONFIG_PLATFORM_I386_PC), y)
 ## For I386 X86 ToolChain use Hardware FLOATING
-EXTRA_CFLAGS += -mhard-float
+ccflags-y += -mhard-float
 else
 ## For ARM ToolChain use Hardware FLOATING
-EXTRA_CFLAGS += -mfloat-abi=hard
+ccflags-y += -mfloat-abi=hard
 endif
 endif
 
 ifeq ($(CONFIG_APPEND_VENDOR_IE_ENABLE), y)
-EXTRA_CFLAGS += -DCONFIG_APPEND_VENDOR_IE_ENABLE
+ccflags-y += -DCONFIG_APPEND_VENDOR_IE_ENABLE
 endif
 
 ifeq ($(CONFIG_RTW_DEBUG), y)
-EXTRA_CFLAGS += -DCONFIG_RTW_DEBUG
-EXTRA_CFLAGS += -DRTW_LOG_LEVEL=$(CONFIG_RTW_LOG_LEVEL)
+ccflags-y += -DCONFIG_RTW_DEBUG
+ccflags-y += -DRTW_LOG_LEVEL=$(CONFIG_RTW_LOG_LEVEL)
 endif
 
-EXTRA_CFLAGS += -DDM_ODM_SUPPORT_TYPE=0x04
+ccflags-y += -DDM_ODM_SUPPORT_TYPE=0x04
 
-EXTRA_CFLAGS += -DCONFIG_IOCTL_CFG80211
-EXTRA_CFLAGS += -DRTW_USE_CFG80211_STA_EVENT
+ccflags-y += -DCONFIG_IOCTL_CFG80211
+ccflags-y += -DRTW_USE_CFG80211_STA_EVENT
 
 SUBARCH := $(shell uname -m | sed -e "s/i.86/i386/; s/ppc.*/powerpc/; s/armv.l/arm/; s/aarch64/arm64/; s/riscv.*/riscv/;")
 ARCH ?= $(SUBARCH)
