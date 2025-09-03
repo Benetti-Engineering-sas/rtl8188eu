@@ -162,6 +162,10 @@ typedef void	*thread_context;
 typedef void timer_hdl_return;
 typedef void *timer_hdl_context;
 
+#if (LINUX_VERSION_CODE > KERNEL_VERSION(6, 16, 0))
+#define from_timer	timer_container_of
+#endif
+
 #if (LINUX_VERSION_CODE > KERNEL_VERSION(2, 5, 41))
 	typedef struct work_struct _workitem;
 #else
