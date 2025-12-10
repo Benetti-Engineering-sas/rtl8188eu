@@ -59,7 +59,7 @@ struct crypto_hash * crypto_hash_init(enum crypto_hash_alg alg, const u8 *key,
 		break;
 #ifdef CONFIG_SHA256
 	case CRYPTO_HASH_ALG_SHA256:
-		sha256_init(&ctx->u.sha256);
+		rtl_sha256_init(&ctx->u.sha256);
 		break;
 #endif /* CONFIG_SHA256 */
 #ifdef CONFIG_INTERNAL_SHA384
@@ -113,7 +113,7 @@ struct crypto_hash * crypto_hash_init(enum crypto_hash_alg alg, const u8 *key,
 #ifdef CONFIG_SHA256
 	case CRYPTO_HASH_ALG_HMAC_SHA256:
 		if (key_len > sizeof(k_pad)) {
-			sha256_init(&ctx->u.sha256);
+			rtl_sha256_init(&ctx->u.sha256);
 			sha256_process(&ctx->u.sha256, key, key_len);
 			sha256_done(&ctx->u.sha256, tk);
 			key = tk;
@@ -127,7 +127,7 @@ struct crypto_hash * crypto_hash_init(enum crypto_hash_alg alg, const u8 *key,
 			os_memset(k_pad + key_len, 0, sizeof(k_pad) - key_len);
 		for (i = 0; i < sizeof(k_pad); i++)
 			k_pad[i] ^= 0x36;
-		sha256_init(&ctx->u.sha256);
+		rtl_sha256_init(&ctx->u.sha256);
 		sha256_process(&ctx->u.sha256, k_pad, sizeof(k_pad));
 		break;
 #endif /* CONFIG_SHA256 */
@@ -297,7 +297,7 @@ int crypto_hash_finish(struct crypto_hash *ctx, u8 *mac, size_t *len)
 			  sizeof(k_pad) - ctx->key_len);
 		for (i = 0; i < sizeof(k_pad); i++)
 			k_pad[i] ^= 0x5c;
-		sha256_init(&ctx->u.sha256);
+		rtl_sha256_init(&ctx->u.sha256);
 		sha256_process(&ctx->u.sha256, k_pad, sizeof(k_pad));
 		sha256_process(&ctx->u.sha256, mac, 32);
 		sha256_done(&ctx->u.sha256, mac);

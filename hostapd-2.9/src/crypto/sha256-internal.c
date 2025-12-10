@@ -31,7 +31,7 @@ int sha256_vector(size_t num_elem, const u8 *addr[], const size_t *len,
 	if (TEST_FAIL())
 		return -1;
 
-	sha256_init(&ctx);
+	rtl_sha256_init(&ctx);
 	for (i = 0; i < num_elem; i++)
 		if (sha256_process(&ctx, addr[i], len[i]))
 			return -1;
@@ -124,7 +124,7 @@ static int sha256_compress(struct sha256_state *md, unsigned char *buf)
 
 
 /* Initialize the hash state */
-void sha256_init(struct sha256_state *md)
+void rtl_sha256_init(struct sha256_state *md)
 {
 	md->curlen = 0;
 	md->length = 0;
