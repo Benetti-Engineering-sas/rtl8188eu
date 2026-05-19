@@ -67,7 +67,11 @@ static __inline__ unsigned char *__nat25_find_pppoe_tag(struct pppoe_hdr *ph, un
 	unsigned char *cur_ptr, *start_ptr;
 	unsigned short tagLen, tagType;
 
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(7, 1, 0)
+	start_ptr = cur_ptr = (unsigned char *)ph + sizeof(*ph);
+#else
 	start_ptr = cur_ptr = (unsigned char *)ph->tag;
+#endif
 	while ((cur_ptr - start_ptr) < ntohs(ph->length)) {
 		/* prevent un-alignment access */
 		tagType = (unsigned short)((cur_ptr[0] << 8) + cur_ptr[1]);
@@ -92,9 +96,17 @@ static __inline__ int __nat25_add_pppoe_tag(struct sk_buff *skb, struct pppoe_ta
 
 	skb_put(skb, data_len);
 	/* have a room for new tag */
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(7, 1, 0)
+	memmove(((unsigned char *)(ph + sizeof(*ph)) + data_len), (unsigned char *)(ph + sizeof(*ph)), ntohs(ph->length));
+#else
 	memmove(((unsigned char *)ph->tag + data_len), (unsigned char *)ph->tag, ntohs(ph->length));
+#endif
 	ph->length = htons(ntohs(ph->length) + data_len);
+#if LINUX_VERSION_CODE >= KERNEL_VERSION(7, 1, 0)
+	memcpy((unsigned char *)(ph + sizeof(*ph)), tag, data_len);
+#else
 	memcpy((unsigned char *)ph->tag, tag, data_len);
+#endif
 	return data_len;
 }
 
